@@ -79,4 +79,16 @@ class SortArticlesTest extends TestCase
             'B Content',
         ]);
     }
+
+    /** @test */
+    public function it_can_sort_articles_by_unknow_fields()
+    {
+        $article1 = Article::factory()->times(3)->create();
+
+
+        $url = route('api.v1.articles.index').'?sort=unknow';
+
+
+        $this->getJson($url)->assertStatus(400);
+    }
 }
