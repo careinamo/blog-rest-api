@@ -13,12 +13,17 @@ class ArticleController extends Controller
 {
 	public function index()
 	{
-		$direction = 'asc';
-		$sortFields = Str::of(request('sort'))->explode(',');
-		$articleQuery =  Article::query();
+		$sortFields = array();
+
+		if (isset($sortField)) {
+			$sortFields = Str::of(request('sort'))->explode(',');
+		}
+
+		$articleQuery = Article::query();
 
 		foreach ($sortFields as $sortField) {
 
+			$direction = 'asc';
 			if (Str::of($sortField)->startsWith('-')) {
 				$direction = 'desc';
 				$sortField = Str::of($sortField)->substr(1);
@@ -27,9 +32,7 @@ class ArticleController extends Controller
 			$articleQuery->orderBy($sortField, $direction);
 		}
 
-		return ArticleCollection::make(
-			$articleQuery->get()
-		);
+		return ArticleCollection::make($articleQuery->get());
 	}
 
     public function show(Article $article)
