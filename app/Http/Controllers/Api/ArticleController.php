@@ -15,9 +15,9 @@ class ArticleController extends Controller
 	{
 		$sortFields = array();
 
-		if (isset($sortField)) {
+		if (request('sort') != null) {
 			$sortFields = Str::of(request('sort'))->explode(',');
-		}
+		}			
 
 		$articleQuery = Article::query();
 
