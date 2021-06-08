@@ -43,7 +43,7 @@ class ListArticleTest extends TestCase
 
         $response = $this->getJson(route('api.v1.articles.index'));
 
-        $response->assertExactJson([
+        $response->assertJsonFragment([
             'data' => [
                 [
                     'type' => 'articles',
@@ -81,13 +81,14 @@ class ListArticleTest extends TestCase
                         'self' => route('api.v1.articles.show', $articles[2])
                     ]
                 ]
-            ],
-            'links' => [
-                'self' => route('api.v1.articles.index')
-            ],
-            'meta' => [
-                'articles_count' => 3
             ]
-        ]);        
+        ]);      
+
+
+        $response->assertJsonStructure([
+            'links' => [],
+            'meta' => []
+        ]);   
+
     }
 }
